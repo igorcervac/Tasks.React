@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ITask from './Task'
 
-const Tasks: () => void = () => {
+const Tasks = () => {
 
     useEffect(() => {
         const initialTasks: ITask[]  = [
