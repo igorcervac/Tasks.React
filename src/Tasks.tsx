@@ -4,10 +4,10 @@ import storageService from "./LocalStorageService";
 
 const Tasks = () => {  
 
-    const [tasks, setTasks] = useState<ITask[]>(() => storageService.get());
+    const [tasks, setTasks] = useState<ITask[]>(() => storageService.tasks);
 
     useEffect(() => {
-        storageService.set(tasks);
+        storageService.tasks = tasks;
     }, [tasks]);
 
     const [description, setDescription]= useState<string>('');
@@ -33,7 +33,8 @@ const Tasks = () => {
                     <h1 style={{textAlign:'center'}}>Tasks</h1>
                     <div className="row">
                         <div className="col-xs-10">
-                            <input className="col-xs-12" type="text" value={description} onChange={(e) => setDescription(e.target.value)}></input>
+                            <input className="col-xs-12" type="text" value={description} placeholder="Write your task"
+                                onChange={(e) => setDescription(e.target.value)}/>
                         </div>
                         <div className="col-xs-2">
                             <button type="button" className="btn btn-primary" onClick={() => {

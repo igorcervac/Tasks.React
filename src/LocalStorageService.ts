@@ -2,13 +2,13 @@ import IStorageService from "./IStorageService";
 import ITask from "./Task";
 
 class LocalStorageService implements IStorageService{
-    get():ITask[] {
+    get tasks():ITask[] {
         const tasksAsJson = localStorage.getItem('tasks') ?? '[]';
         return JSON.parse(tasksAsJson);
     }
     
 
-    set(tasks: ITask[]): void {
+    set tasks(tasks: ITask[]) {
         const json = JSON.stringify(tasks);
         localStorage.setItem('tasks', json);
     }
