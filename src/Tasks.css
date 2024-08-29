@@ -1,0 +1,16 @@
+ul {
+    margin-top: 10px;
+}
+
+span {
+    padding: 5px;
+}
+
+li > button {
+    float: right;
+}
+
+button {
+    margin-top: -5px;
+    margin-left: 3px;
+}
