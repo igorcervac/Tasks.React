@@ -3,4 +3,4 @@
 ### Tasks application implemented in React
 ![image](https://github.com/user-attachments/assets/ba2d8d53-d763-49cf-bfad-e587d8297826)
 
-Deployed at: [https://lively-field-0383fcd10.5.azurestaticapps.net](https://lively-field-0383fcd10.5.azurestaticapps.net)
+Deployed at: [https://orange-sky-04badd110.5.azurestaticapps.net](https://orange-sky-04badd110.5.azurestaticapps.net)
