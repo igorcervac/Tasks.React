@@ -12,11 +12,11 @@ class LocalStorageService implements IStorageService {
     }
 
     update(task: ITask): void {
-        this.tasks = this.tasks.map(x => x.id != task.id ? x: task);
+        this.tasks = this.tasks.map(x => x.id !== task.id ? x: task);
     }
 
     delete(id: number):void {
-        this.tasks = this.tasks.filter(x => x.id != id);
+        this.tasks = this.tasks.filter(x => x.id !== id);
     }
 
     private get tasks(): ITask[] {
