@@ -4,11 +4,11 @@ import storageService from "./LocalStorageService";
 
 const Tasks = () => {  
 
-    const [tasks, setTasks] = useState<ITask[]>(() => storageService.tasks);
+    const [tasks, setTasks] = useState<ITask[]>([]);
 
     useEffect(() => {
-        storageService.tasks = tasks;
-    }, [tasks]);
+        setTasks(storageService.getAll());
+    }, []);
 
     const [description, setDescription]= useState<string>('');
     
@@ -16,14 +16,17 @@ const Tasks = () => {
         const newTask: ITask = { id: tasks.length + 1, description: description, done: false };
         setTasks([...tasks, newTask]);
         setDescription('');
+        storageService.add(newTask);
     }
 
     const deleteTask = (id: number): void => {
         setTasks(tasks.filter(x => x.id !== id));
+        storageService.delete(id);
     }
 
     const toggleTask = (task: ITask): void => {
-        setTasks(tasks.map(x => x.id !==  task.id ? x : {...task, done: !task.done}))
+        setTasks(tasks.map(x => x.id !==  task.id ? x : {...task, done: !task.done}));
+        storageService.update(task);
     }
 
     return (
