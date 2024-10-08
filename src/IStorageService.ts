@@ -1,6 +1,8 @@
 import ITask from "./Task";
 
-export default abstract class IStorageService {
-    abstract get tasks():ITask[]
-    abstract set tasks(tasks: ITask[])
+export default interface IStorageService {
+    getAll(): ITask[];
+    add(task: ITask): void;
+    update(task: ITask): void;
+    delete(id: number): void;
 }
