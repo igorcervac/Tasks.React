@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import ITask from './Task'
+import storageService from "./LocalStorageService";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {  
+
+    const [tasks, setTasks] = useState<ITask[]>([]);
+
+    useEffect(() => {
+        setTasks(storageService.getAll());
+    }, []);
+
+    const [description, setDescription]= useState<string>('');
+    
+    const addTask = (description: string) => {
+        const newTask: ITask = { id: tasks.length + 1, description: description, done: false };
+        setTasks([...tasks, newTask]);
+        setDescription('');
+        storageService.add(newTask);
+    }
+
+    const deleteTask = (id: number): void => {
+        setTasks(tasks.filter(x => x.id !== id));
+        storageService.delete(id);
+    }
+
+    const toggleTask = (task: ITask): void => {
+        setTasks(tasks.map(x => x.id !==  task.id ? x : {...task, done: !task.done}));
+        storageService.update(task);
+    }
+
+    return (
+          <div className="container">
+            <div className="row">
+                <div className="col-xs-6 col-xs-offset-3">
+                    <h2 style={{textAlign:'center'}}>Tasks (React)</h2>
+                    <div className="row">
+                        <div className="col-xs-10">
+                            <input className="col-xs-12" type="text" value={description} placeholder="Write your task"
+                                onChange={(e) => setDescription(e.target.value)}/>
+                        </div>
+                        <div className="col-xs-2">
+                            <button type="button" className="btn btn-primary" onClick={() => {
+                                if (description) {
+                                    addTask(description)
+                                }
+                                else {
+                                    alert('Please enter the task description');
+                                }
+                            }}>Add</button>
+                        </div>
+                    </div>     
+                    <div className="row">    
+                        <div className="col-xs-12"> 
+                            <ul className="list-group">
+                                {
+                                    tasks.map(x => 
+                                        <li key={x.id} className="list-group-item">
+                                            <input checked={x.done} id="checkTask" type="checkbox" onChange={() => toggleTask(x)}></input>
+                                            <label htmlFor="checkTask">
+                                                <span>{x.description}</span>
+                                            </label>                            
+                                            <button className="btn btn-primary" onClick={() => deleteTask(x.id)}>Delete</button>
+                                        </li>)
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default App;
