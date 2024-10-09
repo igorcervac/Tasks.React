@@ -25,8 +25,9 @@ const App = () => {
     }
 
     const toggleTask = (task: ITask): void => {
-        setTasks(tasks.map(x => x.id !==  task.id ? x : {...task, done: !task.done}));
-        storageService.update(task);
+        const toggledTask = {...task, done: !task.done};
+        setTasks(tasks.map(x => x.id !==  task.id ? x : toggledTask));
+        storageService.update(toggledTask);
     }
 
     return (
