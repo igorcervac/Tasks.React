@@ -3,20 +3,23 @@ import ITask from "./Task";
 
 class LocalStorageService implements IStorageService {   
 
-    getAll(): ITask[] {
-        return this.tasks;
+    async getAll(): Promise<ITask[]> {
+        return Promise.resolve(this.tasks);
     }
 
-    add(task: ITask): void{
+    async add(task: ITask): Promise<ITask>{
         this.tasks = [...this.tasks, task];
+        return Promise.resolve(task);
     }
 
-    update(task: ITask): void {
+    async update(task: ITask): Promise<void> {
         this.tasks = this.tasks.map(x => x.id !== task.id ? x: task);
+        return Promise.resolve();
     }
 
-    delete(id: number):void {
+    async delete(id: number): Promise<void> {
         this.tasks = this.tasks.filter(x => x.id !== id);
+        return Promise.resolve();
     }
 
     private get tasks(): ITask[] {
@@ -30,5 +33,5 @@ class LocalStorageService implements IStorageService {
     }
 }
 
-const service: IStorageService = new LocalStorageService();
-export default service;
+const storageService: IStorageService = new LocalStorageService();
+export default storageService;

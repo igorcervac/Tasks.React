@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import ITask from './Task'
-import storageService from "./LocalStorageService";
+import storageService from "./ApiStorageService";
 
 const App = () => {  
 
     const [tasks, setTasks] = useState<ITask[]>([]);
 
     useEffect(() => {
-        setTasks(storageService.getAll());
+        const getData  = async () => {
+            const data = await storageService.getAll();
+            setTasks(data);
+        }
+
+        getData();
+
     }, []);
 
     const [description, setDescription]= useState<string>('');
