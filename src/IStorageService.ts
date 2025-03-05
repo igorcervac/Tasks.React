@@ -1,8 +1,8 @@
 import ITask from "./Task";
 
 export default interface IStorageService {
-    getAll(): ITask[];
-    add(task: ITask): void;
-    update(task: ITask): void;
-    delete(id: number): void;
+    getAll(): Promise<ITask[]>;
+    add(task: ITask): Promise<ITask>;
+    update(task: ITask): Promise<void>;
+    delete(id: number): Promise<void>;
 }
