@@ -1,6 +1,6 @@
-import ITask from "./Task";
+import ITask from "../Task";
 
-export default interface IStorageService {
+export default interface ITaskService {
     getAll(): Promise<ITask[]>;
     add(task: ITask): Promise<ITask>;
     update(task: ITask): Promise<void>;

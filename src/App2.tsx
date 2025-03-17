@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ITask from './Task'
-import storageService from "./ApiStorageService";
 import IState from "./State";
-import stateService from "./ApiStateService";
+import TasksContext from "./TasksContext";
 
 const App2 = () => {
 
@@ -10,14 +9,16 @@ const App2 = () => {
     const [stateId, setStateId] = useState<number>(1);
 
     const [filters, setFilters] = useState<IState[]>([]);
-    const all = {id: -1, name: 'All'};
-    const [filterId, setFilterId] = useState<number>(all.id);
+    const allFilter = {id: -1, name: 'All'};
+    const [filterId, setFilterId] = useState<number>(allFilter.id);
+
+    const {taskService, stateService} = useContext(TasksContext)!;
 
     useEffect(() => {
         const getData = async () => {
             const data = await stateService.getAll();
             setStates(data);
-            setFilters([all, ...data]);
+            setFilters([allFilter, ...data]);
         }
 
         getData();
@@ -27,13 +28,13 @@ const App2 = () => {
 
     useEffect(() => {
         const getData  = async () => {
-            const data = await storageService.getAll();
+            const data = await taskService.getAll();
             setTasks(data);
         }
 
         getData();
 
-    }, []);    
+    });    
 
     const [title, setTitle]= useState<string>('');
     const [description, setDescription]= useState<string>('');
@@ -45,12 +46,12 @@ const App2 = () => {
         setTitle('');
         setDescription('');
         setStateId(1);
-        storageService.add(newTask);
+        taskService.add(newTask);
     }
 
     const deleteTask = (id: number): void => {
         setTasks(tasks.filter(x => x.id !== id));
-        storageService.delete(id);
+        taskService.delete(id);
     }
 
     return (<div id="container">

@@ -1,7 +1,7 @@
-import IStorageService from "./IStorageService";
-import ITask from "./Task";
+import IStorageService from "./ITaskService";
+import ITask from "../Task";
 
-class ApiStorageService implements IStorageService {
+export default class ApiTaskService implements IStorageService {
     apiUrl: string;
 
     constructor(apiUrl: string){
@@ -49,6 +49,3 @@ class ApiStorageService implements IStorageService {
         });  
     }
 }
-
-const storageService: IStorageService = new ApiStorageService('https://tasks-api-100.azurewebsites.net/api/tasks');
-export default storageService;

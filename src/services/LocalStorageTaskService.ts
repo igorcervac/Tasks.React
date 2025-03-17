@@ -1,7 +1,7 @@
-import IStorageService from "./IStorageService";
-import ITask from "./Task";
+import ITask from "../Task";
+import ITaskService from "./ITaskService";
 
-class LocalStorageService implements IStorageService {   
+export default class LocalStorageTaskService implements ITaskService {   
 
     async getAll(): Promise<ITask[]> {
         return Promise.resolve(this.tasks);
@@ -32,6 +32,3 @@ class LocalStorageService implements IStorageService {
         localStorage.setItem('tasks', json);
     }
 }
-
-const storageService: IStorageService = new LocalStorageService();
-export default storageService;
