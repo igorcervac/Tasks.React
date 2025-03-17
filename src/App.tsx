@@ -3,18 +3,19 @@ import ITask from './Task'
 import storageService from "./ApiStorageService";
 import IState from "./State";
 import stateService from "./ApiStateService";
+import { title } from "process";
 
 const App = () => {  
 
-    const selectState = {id: -1, name: 'Select state'}
+    // const selectState = {id: -1, name: 'Select state'}
 
     const [states, setStates] = useState<IState[]>([]);
-    const [stateId, setStateId] = useState<number>(selectState.id);
+    const [stateId, setStateId] = useState<number>(/*selectState.id*/1);
 
     useEffect(() => {
         const getData = async () => {
             const data = await stateService.getAll();
-            setStates([selectState, ...data]);
+            setStates([/*selectState,*/ ...data]);
         }
 
         getData();
@@ -35,11 +36,11 @@ const App = () => {
     const [description, setDescription]= useState<string>('');
     
     const addTask = (description: string) => {
-        const newTask: ITask = { id: tasks.length + 1, description: description, done: false, stateId: stateId };
+        const newTask: ITask = { id: tasks.length + 1, title: title, description: description, done: false, stateId: stateId };
         console.log(newTask);
         setTasks([...tasks, newTask]);
         setDescription('');
-        setStateId(-1);
+        setStateId(1);
         storageService.add(newTask);
     }
 
@@ -78,7 +79,7 @@ const App = () => {
                     <br/>
                     <div className="row">
                         <div className="col-xs-12">
-                                <button type="button" className="btn btn-primary col-xs-4 col-xs-offset-4"  onClick={() => {
+                                <button type="button" className="btn btn-primary col-xs-12"  onClick={() => {
                                     if (description) {
                                         addTask(description)
                                     }
@@ -97,9 +98,10 @@ const App = () => {
                                         <li key={x.id} className="list-group-item">
                                             <input checked={x.done} id="checkTask" type="checkbox" onChange={() => toggleTask(x)}></input>
                                             <label htmlFor="checkTask">
-                                                <span>{x.description} ({states.find(y => y.id === x.stateId)?.name})</span>
-                                            </label>                            
-                                            <button className="btn btn-primary" onClick={() => deleteTask(x.id)}>Delete</button>
+                                                <span>{x.description}</span>
+                                            </label> 
+                                            <span>({states.find(y => y.id === x.stateId)?.name})</span>
+                                            <button className="btn btn-primary" style={{alignSelf: "center"}} onClick={() => deleteTask(x.id)}>Delete</button>
                                         </li>)
                                 }
                             </ul>
