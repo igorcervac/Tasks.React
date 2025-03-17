@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ITask from './Task'
-import storageService from "./ApiStorageService";
 import IState from "./State";
-import stateService from "./ApiStateService";
 import { title } from "process";
+import TasksContext from "./TasksContext";
 
 const App = () => {  
 
@@ -11,6 +10,8 @@ const App = () => {
 
     const [states, setStates] = useState<IState[]>([]);
     const [stateId, setStateId] = useState<number>(/*selectState.id*/1);
+
+    const {taskService, stateService} = useContext(TasksContext)!;
 
     useEffect(() => {
         const getData = async () => {
@@ -25,7 +26,7 @@ const App = () => {
 
     useEffect(() => {
         const getData  = async () => {
-            const data = await storageService.getAll();
+            const data = await taskService.getAll();
             setTasks(data);
         }
 
@@ -41,18 +42,18 @@ const App = () => {
         setTasks([...tasks, newTask]);
         setDescription('');
         setStateId(1);
-        storageService.add(newTask);
+        taskService.add(newTask);
     }
 
     const deleteTask = (id: number): void => {
         setTasks(tasks.filter(x => x.id !== id));
-        storageService.delete(id);
+        taskService.delete(id);
     }
 
     const toggleTask = (task: ITask): void => {
         const toggledTask = {...task, done: !task.done};
         setTasks(tasks.map(x => x.id !==  task.id ? x : toggledTask));
-        storageService.update(toggledTask);
+        taskService.update(toggledTask);
     }
 
     return (
