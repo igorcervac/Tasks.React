@@ -1,6 +1,9 @@
 # Tasks.React
 ![Branch main workflow status](https://github.com/igorcervac/Tasks.React/actions/workflows/azure-static-web-apps-orange-sky-04badd110.yml/badge.svg?branch=main)
-### Tasks application implemented in React
-![image](https://github.com/user-attachments/assets/ba2d8d53-d763-49cf-bfad-e587d8297826)
 
+## Description
+Tasks app is implemented using React and TypeScript and deployed as Azure Static Web App.
+![image](https://github.com/user-attachments/assets/f1c4a1dd-8e60-4961-a49a-1ff96739bc58)
+
+## Deployment
 Deployed at: [https://orange-sky-04badd110.5.azurestaticapps.net](https://orange-sky-04badd110.5.azurestaticapps.net)
