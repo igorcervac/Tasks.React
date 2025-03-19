@@ -3,7 +3,7 @@
 
 ## Description
 Tasks app is implemented using React and TypeScript and deployed as Azure Static Web App.
-![image](https://github.com/user-attachments/assets/f1c4a1dd-8e60-4961-a49a-1ff96739bc58)
+![image](https://github.com/user-attachments/assets/30d85973-86f1-4303-9da4-bb4958aa4237)
 
 ## Deployment
 Deployed at: [https://orange-sky-04badd110.5.azurestaticapps.net](https://orange-sky-04badd110.5.azurestaticapps.net)
