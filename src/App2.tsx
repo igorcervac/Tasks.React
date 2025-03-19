@@ -55,56 +55,64 @@ const App2 = () => {
     }
 
     return (<div id="container">
-        <h1>Tasks</h1>
-            <div className="title">
-                <label htmlFor="title" className="title">Title</label>
-                <input id="title" type="text" className="title" value={title} placeholder="Task title"
-                       onChange={(e) => setTitle(e.target.value)}/>
-            </div>
-            <div className="description">
-                <label htmlFor="description">Description</label>
-                <textarea id="description"  value={description} placeholder="Task description"
-                onChange={(e) => setDescription(e.target.value)}/>
-            </div>
-            <div className="status">
-                <label>Status</label>
-                <select  value={stateId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                setStateId(+e.target.value);}}>
-                    {states.map(x => (<option value={x.id}>{x.name}</option>))}
-                </select>
-            </div>
-            <button onClick={() => {
-                                    if (title) {
-                                        addTask()
-                                    }
-                                    else {
-                                        alert('Please enter the task title');
-                                    }
-                                }}>Add</button>
-        <div className="list">
-            <div className="tasks-filter">
-                <label>Tasks</label>
-                <div className="filter">
-                    <span>Filter: </span>
-                    <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {setFilterId(+e.target.value)}}> 
-                        {filters.map(x=> (<option value={x.id}>{x.name}</option>))}                        
-                    </select>
-                </div>
-            </div>
-            {
-                tasks.filter(x => filterId === -1 || x.stateId === filterId).map(x => (
-                    <div className="task" key={x.id}>
-                        <span className="title">{x.title}</span>
-                        <span className="status">{states.find(y => y.id === x.stateId)?.name}</span>
-                        <div className="buttons">
-                            <button className="edit">Edit</button>
-                            <button className="delete" onClick={() => deleteTask(x.id)}>Delete</button>
+                <header>
+                    <h1>Tasks</h1>
+                </header>
+                <main>
+                    <div className="title">
+                        <label htmlFor="title" className="title">Title</label>
+                        <input id="title" type="text" className="title" value={title} placeholder="Task title"
+                            onChange={(e) => setTitle(e.target.value)}/>
+                    </div>
+                    <div className="description">
+                        <label htmlFor="description">Description</label>
+                        <textarea id="description"  value={description} placeholder="Task description"
+                        onChange={(e) => setDescription(e.target.value)}/>
+                    </div>
+                    <div className="status">
+                        <label>Status</label>
+                        <select  value={stateId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                        setStateId(+e.target.value);}}>
+                            {states.map(x => (<option value={x.id}>{x.name}</option>))}
+                        </select>
+                    </div>
+                    <div className="add">
+                        <button onClick={() => {
+                                                if (title) {
+                                                    addTask()
+                                                }
+                                                else {
+                                                    alert('Please enter the task title');
+                                                }
+                                            }}>
+                            Add
+                        </button>
+                    </div>                    
+                    <div className="list">
+                        <div className="tasks-filter">
+                            <label>Tasks</label>
+                            <div className="filter">
+                                <span>Filter: </span>
+                                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {setFilterId(+e.target.value)}}> 
+                                    {filters.map(x=> (<option value={x.id}>{x.name}</option>))}                        
+                                </select>
+                            </div>
                         </div>
-                    </div>)
-                )
-            }            
-        </div>
-    </div>)
+                        {
+                            tasks.filter(x => filterId === -1 || x.stateId === filterId).map(x => (
+                                <div className="task" key={x.id}>
+                                    <span className="title">{x.title}</span>
+                                    <span className="status">{states.find(y => y.id === x.stateId)?.name}</span>
+                                    <div className="buttons">
+                                        <button className="edit">Edit</button>
+                                        <button className="delete" onClick={() => deleteTask(x.id)}>Delete</button>
+                                    </div>
+                                </div>)
+                            )
+                        }            
+                    </div>
+                </main>
+            </div>)
 }
 
 export default App2;

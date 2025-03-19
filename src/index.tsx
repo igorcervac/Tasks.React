@@ -13,8 +13,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const taskService: IStorageService = new ApiStorageService('https://tasks-api-100.azurewebsites.net/api/tasks');
-const stateService: IStateService = new ApiStateService("https://tasks-api-100.azurewebsites.net/api/states");
+// const apiUrl = "https://localhost:7294";
+const apiUrl = "https://tasks-api-100.azurewebsites.net";
+
+const taskService: IStorageService = new ApiStorageService(`${apiUrl}/api/tasks`);
+const stateService: IStateService = new ApiStateService(`${apiUrl}/api/states`);
 
 root.render(
   <React.StrictMode>
