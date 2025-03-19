@@ -12,8 +12,14 @@ body {
 
 #container h1 {
     text-align: center;
-    color: rgb(26, 80, 147);  
+    background-color: rgb(26, 80, 147);  
     margin-bottom: 0px; 
+    color: #fff;
+    padding: 30px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+    font-weight: 700;
 }
 
 .title {
