@@ -39,19 +39,20 @@ const App2 = () => {
     const [title, setTitle]= useState<string>('');
     const [description, setDescription]= useState<string>('');
 
-    const addTask = () => {
-        const newTask: ITask = { id: tasks.length + 1, title: title, description: description, done: false, stateId: stateId };
-        console.log(newTask);
+    const addTask = async () => {
+        let newTask: ITask = { id: 0, title: title, description: description, done: false, stateId: stateId };
+        newTask = await taskService.add(newTask);
+
         setTasks([...tasks, newTask]);
+
         setTitle('');
         setDescription('');
         setStateId(1);
-        taskService.add(newTask);
     }
 
-    const deleteTask = (id: number): void => {
+    const deleteTask = async (id: number) => {
+        await taskService.delete(id);
         setTasks(tasks.filter(x => x.id !== id));
-        taskService.delete(id);
     }
 
     return (<div id="container">
@@ -77,9 +78,9 @@ const App2 = () => {
                         </select>
                     </div>
                     <div className="add">
-                        <button onClick={() => {
+                        <button onClick={async () => {
                                                 if (title) {
-                                                    addTask()
+                                                    await addTask()
                                                 }
                                                 else {
                                                     alert('Please enter the task title');
@@ -105,7 +106,7 @@ const App2 = () => {
                                     <span className="status">{states.find(y => y.id === x.stateId)?.name}</span>
                                     <div className="buttons">
                                         <button className="edit">Edit</button>
-                                        <button className="delete" onClick={() => deleteTask(x.id)}>Delete</button>
+                                        <button className="delete" onClick={async () => { await deleteTask(x.id); }}>Delete</button>
                                     </div>
                                 </div>)
                             )
