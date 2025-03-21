@@ -47,10 +47,17 @@ main {
 .add {
     display: grid;
     grid-template-columns: 1fr;
+    margin: 10px 0px;
 }
 
-.add {
-    margin: 10px 0px;
+.edit-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 5px;
+}
+
+.edit-buttons button {
+    flex: 1;
 }
 
 .list .tasks-filter {
