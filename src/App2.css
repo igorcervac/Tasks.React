@@ -112,7 +112,7 @@ button:hover {
     cursor: pointer;
   }
 
-button.delete {
+button.change {
     background-color: rgb(220,89, 89);    
 }
 
