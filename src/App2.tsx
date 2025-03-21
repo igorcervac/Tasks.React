@@ -6,11 +6,12 @@ import TasksContext from "./TasksContext";
 const App2 = () => {
 
     const [states, setStates] = useState<IState[]>([]);
-    const [stateId, setStateId] = useState<number>(1);
 
     const [filters, setFilters] = useState<IState[]>([]);
     const allFilter = {id: -1, name: 'All'};
     const [filterId, setFilterId] = useState<number>(allFilter.id);
+
+    const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
 
     const {taskService, stateService} = useContext(TasksContext)!;
 
@@ -38,6 +39,13 @@ const App2 = () => {
 
     const [title, setTitle]= useState<string>('');
     const [description, setDescription]= useState<string>('');
+    const [stateId, setStateId] = useState<number>(1);
+
+    const setTaskStates = (task: ITask | null) => {
+        setTitle(task?.title ?? '');
+        setDescription(task?.description ?? '');
+        setStateId(task?.stateId ?? 1);
+    }
 
     const addTask = async () => {
         let newTask: ITask = { id: 0, title: title, description: description, done: false, stateId: stateId };
@@ -45,9 +53,19 @@ const App2 = () => {
 
         setTasks([...tasks, newTask]);
 
-        setTitle('');
-        setDescription('');
-        setStateId(1);
+        setTaskStates(null);        
+    }
+
+    const updateTask = async () => {
+        const taskToUpdate: ITask = {...selectedTask!, title: title, description: description, stateId: stateId};
+        console.log(taskToUpdate);
+        await taskService.update(taskToUpdate);
+
+        setTasks(tasks.map(x => x.id === taskToUpdate.id ? taskToUpdate : x));
+
+        setTaskStates(null);
+
+        setSelectedTask(null);
     }
 
     const deleteTask = async (id: number) => {
@@ -78,16 +96,24 @@ const App2 = () => {
                         </select>
                     </div>
                     <div className="add">
-                        <button onClick={async () => {
-                                                if (title) {
-                                                    await addTask()
-                                                }
-                                                else {
-                                                    alert('Please enter the task title');
-                                                }
-                                            }}>
-                            Add
-                        </button>
+                        {
+                             !selectedTask ? 
+                                (<button onClick={async () => {
+                                                        if (title) {
+                                                            await addTask()
+                                                        }
+                                                        else {
+                                                            alert('Please enter the task title');
+                                                        }
+                                                    }}>
+                                    Add
+                                </button>)
+                            : 
+                                (<div className="edit-buttons">
+                                    <button onClick={() => updateTask()}>Save</button>
+                                    <button className="delete" onClick={() => setSelectedTask(null)}>Cancel</button>
+                                </div>)
+                            }                        
                     </div>                    
                     <div className="list">
                         <div className="tasks-filter">
@@ -105,7 +131,11 @@ const App2 = () => {
                                     <span className="title">{x.title}</span>
                                     <span className="status">{states.find(y => y.id === x.stateId)?.name}</span>
                                     <div className="buttons">
-                                        <button className="edit">Edit</button>
+                                        <button className="edit" onClick={() => {
+                                                setTaskStates(x);
+                                                setSelectedTask(x);                                                
+                                            }
+                                        }>Edit</button>
                                         <button className="delete" onClick={async () => { await deleteTask(x.id); }}>Delete</button>
                                     </div>
                                 </div>)
