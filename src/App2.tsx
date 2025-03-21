@@ -110,8 +110,8 @@ const App2 = () => {
                                 </button>)
                             : 
                                 (<div className="edit-buttons">
-                                    <button onClick={() => updateTask()}>Save</button>
-                                    <button className="delete" onClick={() => setSelectedTask(null)}>Cancel</button>
+                                    <button onClick={() => updateTask()}>Save</button>                                           
+                                    <button className="change" onClick={() => { setSelectedTask(null); setTaskStates(null); }}>Cancel</button>
                                 </div>)
                             }                        
                     </div>                    
@@ -136,7 +136,7 @@ const App2 = () => {
                                                 setSelectedTask(x);                                                
                                             }
                                         }>Edit</button>
-                                        <button className="delete" onClick={async () => { await deleteTask(x.id); }}>Delete</button>
+                                        <button className="change" onClick={async () => { await deleteTask(x.id); }}>Delete</button>
                                     </div>
                                 </div>)
                             )
