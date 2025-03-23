@@ -1,5 +1,6 @@
 import IStorageService from "./ITaskService";
 import ITask from "../Task";
+import axios from "axios";
 
 export default class ApiTaskService implements IStorageService {
     apiUrl: string;
@@ -9,42 +10,41 @@ export default class ApiTaskService implements IStorageService {
     }
 
     async getAll(): Promise<ITask[]> {
-        const response = await fetch(this.apiUrl, {
+        const response = await axios.get<ITask[]>(this.apiUrl, {
             headers: {
-            "Access-Control-Allow-Origin": "*"
-            }
-        });
-        const json = await response.json();
-        return json;
+                "Access-Control-Allow-Origin": "*"
+                }
+            });
+
+        return response.data;
     }
 
     async add(task: ITask): Promise<ITask>{
-        const response = await fetch(this.apiUrl, {
-            method: 'POST',
-            headers: {
-            "Access-Control-Allow-Origin": "*",
-                "content-type": "application/json"},
-            body: JSON.stringify(task)
-        });
-        const json = await response.json();
-        return json;
+        const response = await axios.post<ITask>(this.apiUrl,
+            task,
+            {           
+                headers: {
+                    "Access-Control-Allow-Origin": "*"},
+            });
+
+        return response.data;
     }
 
     async update(task: ITask): Promise<void> {
-        await fetch(`${this.apiUrl}/${task.id}`, {
-            method: 'PUT',
-            headers: {
-            "Access-Control-Allow-Origin": "*",
-                "content-type": "application/json"},
-            body: JSON.stringify(task)
-        });       
-    }
+        await axios.put(`${this.apiUrl}/${task.id}`, 
+            task,
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+            });
+    }       
+    
 
     async delete(id: number): Promise<void> {
-        await fetch(`${this.apiUrl}/${id}`, {
-            method: 'DELETE',
+        await axios.delete(`${this.apiUrl}/${id}`, {
             headers: {
-            "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Origin": "*"
             }
         });  
     }

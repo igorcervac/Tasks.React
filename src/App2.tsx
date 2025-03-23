@@ -17,9 +17,14 @@ const App2 = () => {
 
     useEffect(() => {
         const getData = async () => {
-            const data = await stateService.getAll();
-            setStates(data);
-            setFilters([allFilter, ...data]);
+            try {
+                const data = await stateService.getAll();
+                setStates(data);
+                setFilters([allFilter, ...data]);
+            }
+            catch(e){
+                console.error(e);
+            }
         }
 
         getData();
@@ -29,8 +34,13 @@ const App2 = () => {
 
     useEffect(() => {
         const getData  = async () => {
-            const data = await taskService.getAll();
-            setTasks(data);
+            try {
+                const data = await taskService.getAll();
+                setTasks(data);
+            }
+            catch(e){
+                console.error(e);
+            }
         }
 
         getData();
@@ -48,29 +58,44 @@ const App2 = () => {
     }
 
     const addTask = async () => {
-        let newTask: ITask = { id: 0, title: title, description: description, done: false, stateId: stateId };
-        newTask = await taskService.add(newTask);
+        try {
+            let newTask: ITask = { id: 0, title: title, description: description, done: false, stateId: stateId };
+            newTask = await taskService.add(newTask);
 
-        setTasks([...tasks, newTask]);
+            setTasks([...tasks, newTask]);
 
-        setTaskStates(null);        
+            setTaskStates(null);   
+        }
+        catch (e){
+            console.error(e);
+        }     
     }
 
     const updateTask = async () => {
-        const taskToUpdate: ITask = {...selectedTask!, title: title, description: description, stateId: stateId};
-        console.log(taskToUpdate);
-        await taskService.update(taskToUpdate);
+        try {
+            const taskToUpdate: ITask = {...selectedTask!, title: title, description: description, stateId: stateId};
+            console.log(taskToUpdate);
+            await taskService.update(taskToUpdate);
 
-        setTasks(tasks.map(x => x.id === taskToUpdate.id ? taskToUpdate : x));
+            setTasks(tasks.map(x => x.id === taskToUpdate.id ? taskToUpdate : x));
 
-        setTaskStates(null);
+            setTaskStates(null);
 
-        setSelectedTask(null);
+            setSelectedTask(null);
+        }
+        catch(e){
+            console.error(e);
+        }
     }
 
     const deleteTask = async (id: number) => {
-        await taskService.delete(id);
-        setTasks(tasks.filter(x => x.id !== id));
+        try {
+            await taskService.delete(id);
+            setTasks(tasks.filter(x => x.id !== id));
+        }
+        catch(e){
+            console.error(e);
+        }
     }
 
     return (<div id="container">
@@ -92,7 +117,7 @@ const App2 = () => {
                         <label>Status</label>
                         <select  value={stateId} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                                         setStateId(+e.target.value);}}>
-                            {states.map(x => (<option value={x.id}>{x.name}</option>))}
+                            {states.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
                         </select>
                     </div>
                     <div className="add">
@@ -121,7 +146,7 @@ const App2 = () => {
                             <div className="filter">
                                 <span>Filter: </span>
                                 <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {setFilterId(+e.target.value)}}> 
-                                    {filters.map(x=> (<option value={x.id}>{x.name}</option>))}                        
+                                    {filters.map(x=> (<option key={x.id} value={x.id}>{x.name}</option>))}                        
                                 </select>
                             </div>
                         </div>
