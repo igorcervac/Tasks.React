@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App2 from './App2'
-import './App2.css'
+import App from './App'
+import './App.css'
 import TasksContext from './TasksContext';
 import ApiStateService from './services/ApiStateService';
 import IStorageService from './services/ITaskService';
@@ -22,7 +22,7 @@ const stateService: IStateService = new ApiStateService(`${apiUrl}/api/states`);
 root.render(
   <React.StrictMode>
     <TasksContext.Provider value={{taskService, stateService}}>
-      <App2 />
+      <App />
     </TasksContext.Provider>
   </React.StrictMode>
 );
